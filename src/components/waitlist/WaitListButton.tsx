@@ -1,30 +1,38 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import waitlist from "@zootools/waitlist-js";
-import "./index.css";
 import { FilloutStandardEmbed } from "@fillout/react";
 import "@fillout/react/style.css";
 
 const WaitListButton = () => {
-  const clickPopup = (event: any) => {
-    event.preventDefault();
-    waitlist.openPopup("qZv4UYKwJBOONLrEUJVA");
+  const [dimensions, setDimensions] = useState({
+    width: 650,
+    height: 505,
+  });
+
+  const handleResize = () => {
+    if (window.innerWidth <= 480) {
+      setDimensions({ width: "auto", height: 505 });
+    } else if (window.innerWidth <= 768) {
+      setDimensions({ width: "auto", height: 505 });
+    } else {
+      setDimensions({ width: 650, height: 505 });
+    }
   };
+
+  useEffect(() => {
+    handleResize(); // Set initial dimensions
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div>
-      {/* <button onClick={clickPopup}>Join waitlist!</button> */}
-      {/* <div
-        style={{ width: "100%", height: "500px" }}
-        data-fillout-id="xrK4KUcdUkus"
-        data-fillout-embed-type="standard"
-        data-fillout-inherit-parameters
-        data-fillout-dynamic-resize
-      ></div> */}
       <div
+        className="waitlist-container"
         style={{
-          //   paddingTop: "70px",
-          width: 650,
-          height: 505,
+          width: dimensions.width,
+          height: dimensions.height,
         }}
       >
         <FilloutStandardEmbed filloutId="xrK4KUcdUkus" />

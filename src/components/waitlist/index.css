@@ -1,4 +1,18 @@
-/* iframe {
-  width: 600px !important;
-  height: 650px !important;
-} */
+.waitlist-container {
+  width: 650px;
+  height: 505px;
+}
+
+@media (max-width: 768px) {
+  .waitlist-container {
+    width: 100%;
+    height: auto; /* Adjust height as needed */
+  }
+}
+
+@media (max-width: 480px) {
+  .waitlist-container {
+    width: 100%;
+    height: auto; /* Adjust height as needed */
+  }
+}
