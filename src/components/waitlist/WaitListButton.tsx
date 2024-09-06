@@ -4,8 +4,13 @@ import waitlist from "@zootools/waitlist-js";
 import { FilloutStandardEmbed } from "@fillout/react";
 import "@fillout/react/style.css";
 
+interface dimensionI {
+  width: string | number;
+  height: string | number;
+}
+
 const WaitListButton = () => {
-  const [dimensions, setDimensions] = useState({
+  const [dimensions, setDimensions] = useState<dimensionI>({
     width: 650,
     height: 505,
   });
