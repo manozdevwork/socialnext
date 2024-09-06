@@ -22,14 +22,14 @@ import Link from "next/link";
 import waitlist from "@zootools/waitlist-js";
 import WaitListButton from "@/components/waitlist/WaitListButton";
 
-function findPosition(obj) {
+function findPosition(obj: any) {
   let currenttop = 0;
   if (obj.offsetParent) {
     do {
       currenttop += obj.offsetTop;
     } while ((obj = obj.offsetParent));
   }
-  return currenttop; // Return the number directly, not an array
+  return currenttop;
 }
 
 const HomePage = () => {
