@@ -1,3 +1,4 @@
+"use server";
 import { Container, Icons } from "@/components";
 import { buttonVariants } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";

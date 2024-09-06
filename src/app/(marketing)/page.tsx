@@ -1,3 +1,4 @@
+"use client";
 import { Container, Icons, Wrapper } from "@/components";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,16 @@ import Image from "next/image";
 import Link from "next/link";
 import waitlist from "@zootools/waitlist-js";
 import WaitListButton from "@/components/waitlist/WaitListButton";
+
+function findPosition(obj) {
+  let currenttop = 0;
+  if (obj.offsetParent) {
+    do {
+      currenttop += obj.offsetTop;
+    } while ((obj = obj.offsetParent));
+  }
+  return currenttop; // Return the number directly, not an array
+}
 
 const HomePage = () => {
   const firstRow = reviews.slice(0, reviews.length / 2);
@@ -58,13 +69,24 @@ const HomePage = () => {
               </h1>
               <p className="text-base md:text-lg text-foreground/80 mt-6 text-center">
                 Enhance your social media with AI-crafted carousels that
-                captivate and engage. Create dynamic, eye-catching slides that
-                stand out in any feed.
+                captivate and engage. Create dynamic, eye-catching carousels
+                that stand out in any feed.
               </p>
               <div className="hidden md:flex relative items-center justify-center mt-8 md:mt-12 w-full">
                 <Link
                   href="#"
                   className="flex items-center justify-center w-max rounded-full border-t border-foreground/30 bg-white/20 backdrop-blur-lg px-2 py-1 md:py-2 gap-2 md:gap-8 shadow-3xl shadow-background/40 cursor-pointer select-none"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const position = findPosition(
+                      document?.getElementById("wait-list")
+                    );
+                    window.scrollTo({
+                      top: position,
+                      behavior: "smooth",
+                    });
+                  }}
                 >
                   <p className="text-foreground text-sm text-center md:text-base font-medium pl-4 pr-4 lg:pr-0">
                     ✨ {"  "} Start crafting your perfect carousel today!!
@@ -321,57 +343,59 @@ const HomePage = () => {
       </Wrapper> */}
 
       {/* newsletter */}
-      <Wrapper className="flex flex-col items-center justify-center py-12 relative">
-        <Container>
-          <LampContainer>
-            <div className="flex flex-col items-center justify-center relative w-full text-center">
-              <h2 className="text-4xl lg:text-5xl xl:text-6xl lg:!leading-snug font-semibold">
-                From Idea to carousels <br /> Faster Than Ever
-              </h2>
-              {/* <p className="text-muted-foreground mt-6 max-w-md mx-auto">
+      <div id="wait-list">
+        <Wrapper className=" flex flex-col items-center justify-center py-12 relative">
+          <Container>
+            <LampContainer>
+              <div className="flex flex-col items-center justify-center relative w-full text-center">
+                <button
+                  className="group relative grid overflow-hidden rounded-full px-4 py-1 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors duration-200"
+                  style={{ marginTop: "30px" }}
+                >
+                  <span>
+                    <span className="spark mask-gradient absolute inset-0 h-[100%] w-[100%] animate-flip overflow-hidden rounded-full [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:animate-rotate before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]" />
+                  </span>
+                  <span className="backdrop absolute inset-[1px] rounded-full bg-neutral-950 transition-colors duration-200 group-hover:bg-neutral-900" />
+                  <span className="h-full w-full blur-md absolute bottom-0 inset-x-0 bg-gradient-to-tr from-primary/40"></span>
+                  <span className="z-10 py-0.5 text-sm text-neutral-100 flex items-center justify-center gap-1.5">
+                    Join the Waitlist below
+                    <Image
+                      src="/icons/sparkles-dark.svg"
+                      alt="✨"
+                      width={24}
+                      height={24}
+                      className="w-4 h-4"
+                    />
+                  </span>
+                </button>
+                <h2 className="mt-6 text-4xl lg:text-5xl xl:text-6xl lg:!leading-snug font-semibold">
+                  From Idea to carousels <br /> Faster Than Ever
+                </h2>
+                {/* <p className="text-muted-foreground mt-6 max-w-md mx-auto">
                 Transform your social media presence with AI-crafted carousels
                 designed to captivate and engage your audience. Elevate your
                 content with dynamic, visually stunning carousels that stand out
                 in any feed.
               </p> */}
-              <button
-                className="group relative grid overflow-hidden rounded-full px-4 py-1 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors duration-200"
-                style={{ marginTop: "30px" }}
-              >
-                <span>
-                  <span className="spark mask-gradient absolute inset-0 h-[100%] w-[100%] animate-flip overflow-hidden rounded-full [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:animate-rotate before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]" />
-                </span>
-                <span className="backdrop absolute inset-[1px] rounded-full bg-neutral-950 transition-colors duration-200 group-hover:bg-neutral-900" />
-                <span className="h-full w-full blur-md absolute bottom-0 inset-x-0 bg-gradient-to-tr from-primary/40"></span>
-                <span className="z-10 py-0.5 text-sm text-neutral-100 flex items-center justify-center gap-1.5">
-                  Join the Waitlist below
-                  <Image
-                    src="/icons/sparkles-dark.svg"
-                    alt="✨"
-                    width={24}
-                    height={24}
-                    className="w-4 h-4"
-                  />
-                </span>
-              </button>
-              {/* <Button variant="white" className="mt-6" asChild>
+
+                {/* <Button variant="white" className="mt-6" asChild>
                 <Link href="/#">
                   Join Waitlist !
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button> */}
+              </div>
+            </LampContainer>
+          </Container>
+          <Container>
+            <div
+              className="flex flex-col items-center justify-center relative w-full text-center"
+              style={{ marginTop: "-250px" }}
+            >
+              <WaitListButton />
             </div>
-          </LampContainer>
-        </Container>
-        <Container>
-          <div
-            className="flex flex-col items-center justify-center relative w-full text-center"
-            style={{ marginTop: "-250px" }}
-          >
-            <WaitListButton />
-          </div>
-        </Container>
-        {/* <Container className="relative z-[999999]">
+          </Container>
+          {/* <Container className="relative z-[999999]">
           <div className="flex items-center justify-center w-full -mt-40">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-start md:justify-between w-full px-4 md:px-8 rounded-lg lg:rounded-2xl border border-border/80 py-4 md:py-8">
               <div className="flex flex-col items-start gap-4 w-full">
@@ -410,7 +434,8 @@ const HomePage = () => {
             </div>
           </div>
         </Container> */}
-      </Wrapper>
+        </Wrapper>
+      </div>
     </section>
   );
 };
