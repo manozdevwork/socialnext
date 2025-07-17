@@ -1,118 +1,178 @@
-module.exports = {
-  darkMode: ['class'],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}', // Tremor module
-  ],
-  theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
-    },
-    extend: {
-      colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-        'automation-zoom-in': {
-          '0%': { transform: 'translateY(-30px) scale(0.2)' },
-          '100%': { transform: 'transform: translateY(0px) scale(1)' },
-        },
-        'flip': {
-          to: {
-            transform: "rotate(360deg)",
-          },
-        },
-        'rotate': {
-          to: {
-            transform: "rotate(90deg)",
-          },
-        },
-        'rotate-new': {
-          '0%': { transform: 'rotate(0deg) scale(10)' },
-          '100%': { transform: 'rotate(-360deg) scale(10)' },
-        },
-        'shimmer': {
-          from: {
-            backgroundPosition: "0 0",
-          },
-          to: {
-            backgroundPosition: "-200% 0",
-          },
-        },
-        "border-beam": {
-          "100%": {
-            "offset-distance": "100%",
-          },
-        },
-        "marquee": {
-          from: { transform: "translateX(0)" },
-          to: { transform: "translateX(calc(-100% - var(--gap)))" },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        'automation-zoom-in': 'automation-zoom-in 0.5s',
-        'flip': "flip 6s infinite steps(2, end)",
-        'rotate': "rotate 3s linear infinite both",
-        'rotate-new': 'rotate-new 20s linear infinite',
-        'shimmer': "shimmer 2s linear infinite",
-        "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
-        "marquee": "marquee var(--duration) linear infinite",
-      },
-    },
-  },
-  plugins: [require('tailwindcss-animate')],
-};
+
+import type { Config } from "tailwindcss";
+import { colors } from './src/styles/theme/colors';
+import { radii } from './src/styles/theme/borders';
+import { fontSize, fontFamily, fontWeight, lineHeight, letterSpacing } from './src/styles/theme/typography';
+import { spacing } from './src/styles/theme/spacing';
+import { shadows } from './src/styles/theme/shadows';
+import { zIndex } from './src/styles/theme/zIndex';
+
+export default {
+	darkMode: ["class"],
+	content: [
+		"./pages/**/*.{ts,tsx}",
+		"./components/**/*.{ts,tsx}",
+		"./app/**/*.{ts,tsx}",
+		"./src/**/*.{ts,tsx}",
+	],
+	prefix: "",
+	theme: {
+		container: {
+			center: true,
+			padding: '2rem',
+			screens: {
+				'2xl': '1400px'
+			}
+		},
+		extend: {
+			// 🎨 Colors - Centralized from theme tokens
+			colors: {
+				primary: colors.primary,
+				secondary: colors.background.secondary,
+				border: colors.border,
+				background: colors.background,
+				neutral: colors.neutral,
+				outline: colors.outline,
+				feedback: colors.feedback,
+				foreground: {
+					DEFAULT: colors.neutral[700],
+				},
+
+				// Legacy shadcn color formats for compatibility
+				destructive: {
+					DEFAULT: colors.feedback.error.DEFAULT,
+					foreground: colors.neutral.white,
+				},
+				muted: {
+					DEFAULT: colors.background.muted,
+					foreground: colors.neutral[500],
+				},
+				accent: {
+					DEFAULT: colors.background.secondary,
+					foreground: colors.primary.dark,
+				},
+				popover: {
+					DEFAULT: colors.background.DEFAULT,
+					foreground: colors.neutral.DEFAULT,
+				},
+				card: {
+					DEFAULT: colors.background.DEFAULT,
+					foreground: colors.neutral.DEFAULT,
+				},
+				sidebar: {
+					DEFAULT: 'hsl(var(--sidebar-background))',
+					foreground: 'hsl(var(--sidebar-foreground))',
+					primary: 'hsl(var(--sidebar-primary))',
+					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+					accent: 'hsl(var(--sidebar-accent))',
+					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+					border: 'hsl(var(--sidebar-border))',
+					ring: 'hsl(var(--sidebar-ring))'
+				},
+			},
+
+			// 🧩 Border Radius - Centralized from theme tokens
+			borderRadius: {
+				...radii,
+				lg: radii.lg,
+				md: radii.md,
+				sm: radii.sm,
+				button: radii.button,
+			},
+
+			// 🔤 Typography - Centralized from theme tokens
+			fontFamily: {
+				sans: fontFamily.sans,
+				serif: fontFamily.serif,
+				mono: fontFamily.mono,
+			},
+			fontSize,
+			fontWeight,
+			lineHeight,
+			letterSpacing,
+
+			// 📏 Spacing - Centralized from theme tokens
+			spacing,
+
+			// 🌫️ Shadows - Centralized from theme tokens
+			boxShadow: {
+				...shadows,
+				'sidebar': shadows.DEFAULT,
+				'card': shadows.md,
+			},
+
+			// 📚 Z-Index - Centralized from theme tokens
+			zIndex: {
+				...zIndex,
+			},
+
+			// 🎬 Animations and Keyframes
+			keyframes: {
+				'accordion-down': {
+					from: {
+						height: '0'
+					},
+					to: {
+						height: 'var(--radix-accordion-content-height)'
+					}
+				},
+				'accordion-up': {
+					from: {
+						height: 'var(--radix-accordion-content-height)'
+					},
+					to: {
+						height: '0'
+					}
+				},
+				'fade-in': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' },
+				},
+				'fade-out': {
+					'0%': { opacity: '1', transform: 'translateY(0)' },
+					'100%': { opacity: '0', transform: 'translateY(10px)' },
+				},
+				'slide-in-right': {
+					'0%': { 
+						transform: 'translateX(100%)',
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '0.5'
+					},
+					'100%': { 
+						transform: 'translateX(0)',
+						opacity: '1'
+					},
+				},
+				'slide-out-left': {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(-100%)' },
+				},
+				'slide-fast': {
+					'0%': { transform: 'translateX(-100%)', opacity: '0' },
+					'10%': { transform: 'translateX(-50%)', opacity: '0.5' },
+					'20%': { transform: 'translateX(0)', opacity: '1' },
+					'80%': { transform: 'translateX(0)', opacity: '1' },
+					'90%': { transform: 'translateX(50%)', opacity: '0.5' },
+					'100%': { transform: 'translateX(100%)', opacity: '0' },
+				},
+				'slide-seamless': {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(-50%)' },
+				},
+			},
+			animation: {
+				'accordion-down': 'accordion-down 0.2s ease-out',
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'fade-out': 'fade-out 0.3s ease-out',
+				'slide-in-right': 'slide-in-right 0.3s ease-out',
+				'slide-out-left': 'slide-out-left 0.3s ease-out',
+				'slide-fast': 'slide-fast 2s ease-in-out infinite',
+				'slide-seamless': 'slide-seamless 3s linear infinite',
+			}
+		}
+	},
+	plugins: [require("tailwindcss-animate")],
+} satisfies Config;
